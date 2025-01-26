@@ -32,7 +32,6 @@ export default function ImageDialog({ image, query, index }: ImageDialogProps) {
       const targetHeight = imageHeight;
       const targetWidth = targetHeight * ASPECT_RATIO;
       const percentWidth = (targetWidth / imageWidth) * 100;
-      console.log("percentWidth", percentWidth);
       return {
         unit: "%",
         width: percentWidth,
@@ -45,7 +44,6 @@ export default function ImageDialog({ image, query, index }: ImageDialogProps) {
       const targetWidth = imageWidth;
       const targetHeight = targetWidth / ASPECT_RATIO;
       const percentHeight = (targetHeight / imageHeight) * 100;
-      console.log("percentHeight", percentHeight);
       return {
         unit: "%",
         width: 100,

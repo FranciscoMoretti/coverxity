@@ -39,11 +39,12 @@ export async function generateImageQueries(title: string): Promise<string[]> {
         The query is to search images on Pexels.com. Pexels documentation explains: query could be something broad like Nature, Tigers, People. Or it could be something specific like Group of people working.
         
         Guidelines:
-        1. Understand the article title and brainstorm related concepts.
+        1. Understand the article title and brainstorm the top related concpets.
         2. Return 5 search terms that would lead to images that are relevant to the article.
-        3. Some search terms should be specific and not too broad.
-        4. The search terms should be broad enough to find relevant images.
-
+        3. Some search terms should be specific.
+        4. The search terms should be broad.
+        5. The search terms should be the top 5 most relevants.
+        
         `,
       },
       {
