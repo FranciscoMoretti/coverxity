@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="app/icon.png" alt="Coverxity Icon" width="64" height="64" />
+</p>
+
 # Coverxity
 
 Coverxity is an AI-powered tool that helps you find the perfect cover images for your content. Using advanced image search and AI suggestions, it generates relevant visual options based on your article title.
