@@ -3,15 +3,12 @@
 import { useState } from "react"
 import TitleForm from "./components/TitleForm"
 import QueryResults from "./components/QueryResults"
-import SelectedImage from "./components/SelectedImage"
-import { ToastProvider } from "./components/ToastProvider"
-import { getCoverImages } from "../utils/coverImagesCall"
-import { searchPexels } from "../utils/mockPexels"
+import { getCoverImages } from "@/utils/coverImagesCall"
 
 export default function Home() {
+  const [title, setTitle] = useState("")
   const [queries, setQueries] = useState<string[]>([])
   const [searchResults, setSearchResults] = useState<Record<string, any[]>>({})
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   const handleTitleSubmit = async (submittedTitle: string) => {
     const coverImages = await getCoverImages(submittedTitle)
@@ -21,24 +18,15 @@ export default function Home() {
     setSearchResults(results)
   }
 
-  console.log(searchResults)
-
-  const handleImageSelect = (imageUrl: string) => {
-    setSelectedImage(imageUrl)
-  }
-
   return (
     <>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">AI Article Image Finder</h1>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+      <div className="container mx-auto">
         <TitleForm onSubmit={handleTitleSubmit} />
-        {queries.length > 0 && (
-          <QueryResults queries={queries} searchResults={searchResults} onImageSelect={handleImageSelect} />
-        )}
-        {selectedImage && <SelectedImage imageUrl={selectedImage} />}
+        {queries.length > 0 && <QueryResults queries={queries} searchResults={searchResults} />}
       </div>
-      <ToastProvider />
-    </>
+    </div>
+  </>
   )
 }
 
