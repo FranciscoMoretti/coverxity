@@ -4,6 +4,7 @@ import { useState } from "react";
 import TitleForm from "./components/TitleForm";
 import QueryResults from "./components/QueryResults";
 import { getCoverImages } from "@/utils/coverImagesCall";
+import { Github } from "lucide-react";
 
 export default function Home() {
   const [title, setTitle] = useState("");
@@ -20,6 +21,19 @@ export default function Home() {
 
   return (
     <>
+      <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex h-14 items-center justify-between w-full px-4 md:px-8">
+          <span className="text-xl font-bold">Coverxity</span>
+          <a
+            href="https://github.com/FranciscoMoretti/coverxity"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-gray-600 dark:hover:text-gray-300"
+          >
+            <Github className="h-6 w-6" />
+          </a>
+        </div>
+      </nav>
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
         <div className="container mx-auto">
           <TitleForm onSubmit={handleTitleSubmit} />
