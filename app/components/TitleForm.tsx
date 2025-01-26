@@ -47,7 +47,7 @@ export default function TitleForm({ onSubmit }: TitleFormProps) {
           ) : (
             <>
               <Sparkles className="mr-2 h-4 w-4" />
-              Generate
+              Find Images
             </>
           )}
         </Button>
