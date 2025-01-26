@@ -84,7 +84,7 @@ export default function QueryResults({
                             )}
                           </Button>
                           <p className="text-white text-sm">
-                            {image.photographer || "Unknown author"}
+                            {"Photo: " + image.photographer || "Unknown author"}
                           </p>
                         </div>
                       )}
@@ -109,7 +109,7 @@ export default function QueryResults({
                             `dialog-${query}-${index}`
                           )
                         }
-                        className="mt-2"
+                        className="mt-2 transition-all"
                       >
                         {copiedStates[`dialog-${query}-${index}`] ? (
                           <div className="flex items-center space-x-2">
@@ -117,7 +117,7 @@ export default function QueryResults({
                             <Check className="h-4 w-4" />
                           </div>
                         ) : (
-                          "Copy Image URL"
+                          "Copy URL"
                         )}
                       </Button>
                     </div>
