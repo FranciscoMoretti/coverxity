@@ -4,7 +4,7 @@ import { Photo } from "pexels";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, Download } from "lucide-react";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
 export default function QueryResults({
@@ -36,6 +36,28 @@ export default function QueryResults({
       });
   };
 
+  const handleDownload = async (
+    e: React.MouseEvent,
+    imageUrl: string,
+    filename: string
+  ) => {
+    e.stopPropagation();
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${filename}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (err) {
+      console.error("Failed to download: ", err);
+    }
+  };
+
   return (
     <div className="space-y-8">
       {queries.map((query) => (
@@ -58,31 +80,47 @@ export default function QueryResults({
                       />
                       {hoveredImage === `${query}-${index}` && (
                         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-between p-2 rounded-md">
-                          <Button
-                            variant="secondary"
-                            className="self-end transition-all "
-                            size={
-                              copiedStates[`${query}-${index}`]
-                                ? "default"
-                                : "icon"
-                            }
-                            onClick={(e) =>
-                              handleCopyClick(
-                                e,
-                                image.src.original,
-                                `${query}-${index}`
-                              )
-                            }
-                          >
-                            {copiedStates[`${query}-${index}`] ? (
-                              <div className="flex items-center justify-center w-full ">
-                                <span className="text-xs">URL Copied</span>
-                                <Check className="h-4 w-4" />
-                              </div>
-                            ) : (
-                              <Copy className="h-4 w-4" />
-                            )}
-                          </Button>
+                          <div className="flex gap-2 self-end">
+                            <Button
+                              variant="secondary"
+                              className="transition-all"
+                              size="icon"
+                              onClick={(e) =>
+                                handleDownload(
+                                  e,
+                                  image.src.original,
+                                  image.alt || `image-${index}`
+                                )
+                              }
+                            >
+                              <Download className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="secondary"
+                              className="self-end transition-all"
+                              size={
+                                copiedStates[`${query}-${index}`]
+                                  ? "default"
+                                  : "icon"
+                              }
+                              onClick={(e) =>
+                                handleCopyClick(
+                                  e,
+                                  image.src.original,
+                                  `${query}-${index}`
+                                )
+                              }
+                            >
+                              {copiedStates[`${query}-${index}`] ? (
+                                <div className="flex items-center justify-center w-full ">
+                                  <span className="text-xs">URL Copied</span>
+                                  <Check className="h-4 w-4" />
+                                </div>
+                              ) : (
+                                <Copy className="h-4 w-4" />
+                              )}
+                            </Button>
+                          </div>
                           <p className="text-white text-sm">
                             {"Photo: " + image.photographer || "Unknown author"}
                           </p>
@@ -98,28 +136,42 @@ export default function QueryResults({
                       className="w-full h-auto object-contain"
                     />
                     <div className="mt-4">
-                      <p className="font-semibold">
-                        Author: {image.photographer || "Unknown"}
-                      </p>
-                      <Button
-                        onClick={(e) =>
-                          handleCopyClick(
-                            e,
-                            image.src.original,
-                            `dialog-${query}-${index}`
-                          )
-                        }
-                        className="mt-2 transition-all"
-                      >
-                        {copiedStates[`dialog-${query}-${index}`] ? (
-                          <div className="flex items-center space-x-2">
-                            <span>URL Copied</span>
-                            <Check className="h-4 w-4" />
-                          </div>
-                        ) : (
-                          "Copy URL"
-                        )}
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={(e) =>
+                            handleDownload(
+                              e,
+                              image.src.original,
+                              image.alt || `image-${index}`
+                            )
+                          }
+                        >
+                          <Download className="h-4 w-4 mr-2" />
+                          Download
+                        </Button>
+                        <Button
+                          onClick={(e) =>
+                            handleCopyClick(
+                              e,
+                              image.src.original,
+                              `dialog-${query}-${index}`
+                            )
+                          }
+                          className="transition-all"
+                        >
+                          {copiedStates[`dialog-${query}-${index}`] ? (
+                            <div className="flex items-center space-x-2">
+                              <span>URL Copied</span>
+                              <Check className="h-4 w-4" />
+                            </div>
+                          ) : (
+                            <>
+                              <Copy className="h-4 w-4 mr-2" />
+                              Copy URL
+                            </>
+                          )}
+                        </Button>
+                      </div>
                     </div>
                   </DialogContent>
                 </Dialog>
