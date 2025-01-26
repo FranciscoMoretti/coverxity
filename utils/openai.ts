@@ -15,11 +15,12 @@ export async function generateImageQueries(title: string): Promise<string[]> {
     messages: [
       {
         role: "system",
-        content: "You are an expert at generating search terms for finding article cover images. Return a JSON response with 5 search terms that would make good cover images for the article title. Focus on abstract, conceptual, and symbolic terms that work well with stock photos."
+        content: `You are an expert at generating search terms for finding article cover images. Return a response with 5 search terms that would make good cover images for the article title. 
+        The query is to search images on Pexels.com. Pexels documentation explains: query could be something broad like Nature, Tigers, People. Or it could be something specific like Group of people working.`
       },
       {
         role: "user",
-        content: `Generate image search terms as JSON for article titled: "${title}"`
+        content: `Generate image search terms for article titled: "${title}"`
       }
     ],
     functions: [
