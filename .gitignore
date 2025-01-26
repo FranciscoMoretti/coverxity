@@ -20,6 +20,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# vscode
+.vscode
+
 # vercel
 .vercel
 
