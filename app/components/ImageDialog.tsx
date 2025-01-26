@@ -168,7 +168,7 @@ export default function ImageDialog({ image, query, index }: ImageDialogProps) {
         </div>
         <div className={`${isCropping ? "hidden" : "block"}`}>
           <img
-            src={image.src.medium || "/placeholder.svg"}
+            src={image.src.large || "/placeholder.svg"}
             alt={image.alt || "Image"}
             className="w-full h-auto object-contain"
           />
