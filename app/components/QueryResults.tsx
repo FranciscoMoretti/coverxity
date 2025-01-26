@@ -1,11 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Photo } from "pexels";
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Check, Copy, Download } from "lucide-react";
-import { DialogTitle } from "@radix-ui/react-dialog";
+import ImageDialog from "./ImageDialog";
 
 export default function QueryResults({
   queries,
@@ -128,52 +127,7 @@ export default function QueryResults({
                       )}
                     </div>
                   </DialogTrigger>
-                  <DialogContent className="max-w-3xl">
-                    <DialogTitle>{image.alt || "Image"}</DialogTitle>
-                    <img
-                      src={image.src.original || "/placeholder.svg"}
-                      alt={image.alt || "Image"}
-                      className="w-full h-auto object-contain"
-                    />
-                    <div className="mt-4">
-                      <div className="flex gap-2">
-                        <Button
-                          onClick={(e) =>
-                            handleDownload(
-                              e,
-                              image.src.original,
-                              image.alt || `image-${index}`
-                            )
-                          }
-                        >
-                          <Download className="h-4 w-4 mr-2" />
-                          Download
-                        </Button>
-                        <Button
-                          onClick={(e) =>
-                            handleCopyClick(
-                              e,
-                              image.src.original,
-                              `dialog-${query}-${index}`
-                            )
-                          }
-                          className="transition-all"
-                        >
-                          {copiedStates[`dialog-${query}-${index}`] ? (
-                            <div className="flex items-center space-x-2">
-                              <span>URL Copied</span>
-                              <Check className="h-4 w-4" />
-                            </div>
-                          ) : (
-                            <>
-                              <Copy className="h-4 w-4 mr-2" />
-                              Copy URL
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </DialogContent>
+                  <ImageDialog image={image} query={query} index={index} />
                 </Dialog>
               ))}
             </div>
