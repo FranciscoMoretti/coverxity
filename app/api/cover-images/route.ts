@@ -21,27 +21,28 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<ReturnSchema | { error: string }>> {
   try {
-    // Get IP for rate limiting
-    const forwardedFor = headers().get("x-forwarded-for");
-    const ip = forwardedFor?.split(",")[0] || "127.0.0.1";
+    // Only check rate limit if KV is configured
+    if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+      const forwardedFor = headers().get("x-forwarded-for");
+      const ip = forwardedFor?.split(",")[0] || "127.0.0.1";
 
-    // Check rate limit
-    const { success, limit, remaining, reset } = await getRateLimitInfo(ip);
+      const { success, limit, remaining, reset } = await getRateLimitInfo(ip);
 
-    if (!success) {
-      return NextResponse.json(
-        {
-          error: "Rate limit exceeded. Try again later.",
-        },
-        {
-          status: 429,
-          headers: {
-            "X-RateLimit-Limit": limit.toString(),
-            "X-RateLimit-Remaining": remaining.toString(),
-            "X-RateLimit-Reset": reset.toString(),
+      if (!success) {
+        return NextResponse.json(
+          {
+            error: "Rate limit exceeded. Try again later.",
           },
-        }
-      );
+          {
+            status: 429,
+            headers: {
+              "X-RateLimit-Limit": limit.toString(),
+              "X-RateLimit-Remaining": remaining.toString(),
+              "X-RateLimit-Reset": reset.toString(),
+            },
+          }
+        );
+      }
     }
 
     const { title } = await request.json();
