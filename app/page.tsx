@@ -5,6 +5,8 @@ import TitleForm from "./components/TitleForm";
 import QueryResults from "./components/QueryResults";
 import { getCoverImages } from "@/utils/coverImagesCall";
 import { Github } from "lucide-react";
+import Icon from "@/app/icon.png";
+import Image from "next/image";
 
 export default function Home() {
   const [title, setTitle] = useState("");
@@ -23,7 +25,10 @@ export default function Home() {
     <>
       <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex h-14 items-center justify-between w-full px-4 md:px-8">
-          <span className="text-xl font-bold">Coverxity</span>
+          <div className="flex items-center gap-2">
+            <Image src={Icon} alt="Coverxity icon" width={24} height={24} />
+            <span className="text-xl font-bold">Coverxity</span>
+          </div>
           <a
             href="https://github.com/FranciscoMoretti/coverxity"
             target="_blank"
