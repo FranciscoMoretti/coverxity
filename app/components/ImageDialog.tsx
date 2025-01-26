@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import {
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -135,9 +136,18 @@ export default function ImageDialog({ image, query, index }: ImageDialogProps) {
 
   return (
     <DialogContent className="max-w-3xl">
-      <DialogTitle className="flex items-center justify-between">
-        {image.alt || "Image"}
+      <DialogTitle className="flex items-center gap-2">
+        <div>{"Photo by " + image.photographer}</div>
+        <a
+          href={image.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-muted-foreground hover:underline"
+        >
+          See on Pexels
+        </a>
       </DialogTitle>
+      <DialogDescription>{image.alt}</DialogDescription>
 
       <div className="relative">
         <div className={`${isCropping ? "block" : "hidden"}`}>
