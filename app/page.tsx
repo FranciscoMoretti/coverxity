@@ -5,7 +5,7 @@ import TitleForm from "./components/TitleForm";
 import QueryResults from "./components/QueryResults";
 import { getCoverImages } from "@/utils/coverImagesCall";
 import { Github } from "lucide-react";
-import Icon from "@/app/icon.png";
+import Icon from "@/public/icon.png";
 import Image from "next/image";
 
 export default function Home() {

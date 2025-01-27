@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="app/icon.png" alt="Coverxity Icon" width="64" height="64" />
+  <img src="public/icon.png" alt="Coverxity Icon" width="64" height="64" />
 </p>
 
 # Coverxity
