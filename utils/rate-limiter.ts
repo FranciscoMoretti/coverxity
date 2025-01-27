@@ -6,16 +6,23 @@ const redis = new Redis({
   token: process.env.KV_REST_API_TOKEN || "",
 });
 
+export const MAX_REQUESTS_PER_DAY = 5;
+
 export const rateLimiter = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.slidingWindow(5, "1 d"),
+  limiter: Ratelimit.slidingWindow(MAX_REQUESTS_PER_DAY, "1 d"),
   analytics: true,
   prefix: "ratelimit:coverxity:search",
 });
 
-export const getRateLimitInfo = async (identifier: string) => {
+export const rateLimit = async (identifier: string) => {
   const { success, limit, remaining, reset } = await rateLimiter.limit(
     identifier
   );
   return { success, limit, remaining, reset };
 };
+
+export async function remainingRequests(identifier: string) {
+  const { remaining } = await rateLimiter.getRemaining(identifier);
+  return remaining;
+}

@@ -5,7 +5,8 @@ import { NextResponse } from "next/server";
 import { Photo } from "pexels";
 import { z } from "zod";
 import { headers } from "next/headers";
-import { getRateLimitInfo } from "@/utils/rate-limiter";
+import { rateLimit } from "@/utils/rate-limiter";
+import { shouldUseRateLimit } from "@/utils/shouldUseRateLimit";
 
 export const returnSchema = z.object({
   queries: z.array(z.string()).min(1),
@@ -21,15 +22,11 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<ReturnSchema | { error: string }>> {
   try {
-    if (
-      process.env.NODE_ENV === "production" &&
-      process.env.KV_REST_API_URL &&
-      process.env.KV_REST_API_TOKEN
-    ) {
+    if (shouldUseRateLimit()) {
       const forwardedFor = headers().get("x-forwarded-for");
       const ip = forwardedFor?.split(",")[0] || "127.0.0.1";
 
-      const { success, limit, remaining, reset } = await getRateLimitInfo(ip);
+      const { success, limit, remaining, reset } = await rateLimit(ip);
 
       if (!success) {
         return NextResponse.json(

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TitleForm from "./components/TitleForm";
 import QueryResults from "./components/QueryResults";
 import { getCoverImages } from "@/utils/coverImagesCall";
@@ -12,6 +12,19 @@ export default function Home() {
   const [queries, setQueries] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<Record<string, any[]>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [rateLimit, setRateLimit] = useState<{
+    remaining: number;
+    limit: number;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchRateLimit = async () => {
+      const res = await fetch("/api/rate-limit");
+      const data = await res.json();
+      setRateLimit(data);
+    };
+    fetchRateLimit();
+  }, [queries]); // Refresh after each search
 
   const handleTitleSubmit = async (submittedTitle: string) => {
     setIsLoading(true);
@@ -32,14 +45,21 @@ export default function Home() {
             <Image src={Icon} alt="Coverxity icon" width={24} height={24} />
             <span className="text-xl font-bold">Coverxity</span>
           </div>
-          <a
-            href="https://github.com/FranciscoMoretti/coverxity"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-600 dark:hover:text-gray-300"
-          >
-            <Github className="h-6 w-6" />
-          </a>
+          <div className="flex items-center gap-4">
+            {rateLimit && (
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                {rateLimit.remaining}/{rateLimit.limit} credits
+              </span>
+            )}
+            <a
+              href="https://github.com/FranciscoMoretti/coverxity"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-600 dark:hover:text-gray-300"
+            >
+              <Github className="h-6 w-6" />
+            </a>
+          </div>
         </div>
       </nav>
       <main className=" bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 flex flex-col grow justify-center">

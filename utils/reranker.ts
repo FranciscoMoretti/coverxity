@@ -20,7 +20,9 @@ export async function rerank(images: Photo[], title: string): Promise<Photo[]> {
       {
         role: "system",
         content:
-          "You are a photo curator choosing an article cover image. Score each image's relevance to the given title from 0-100. Return the scores in an array in the same order as the images array.",
+          "You are a photo curator choosing an article cover image. Score each image's relevance to the given title from 0-100. Return the scores in an array in the same order as the images array. The output array should have " +
+          images.length +
+          " scores.",
       },
       {
         role: "user",
