@@ -3,7 +3,14 @@ import { Photo } from "pexels";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { Check, Copy, Download, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Check,
+  Copy,
+  Download,
+  ChevronLeft,
+  ChevronRight,
+  Link,
+} from "lucide-react";
 import ImageDialog from "./ImageDialog";
 import {
   Carousel,
@@ -120,7 +127,7 @@ export default function QueryCard({ query, images }: QueryCardProps) {
                                   <Check className="h-4 w-4" />
                                 </div>
                               ) : (
-                                <Copy className="h-4 w-4" />
+                                <Link className="h-4 w-4" />
                               )}
                             </Button>
                           </div>

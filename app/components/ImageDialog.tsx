@@ -5,7 +5,16 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Check, Copy, Download, X } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  Copy,
+  CropIcon,
+  Download,
+  ExternalLink,
+  Link,
+  X,
+} from "lucide-react";
 import { Photo } from "pexels";
 import { useState, useRef } from "react";
 import ReactCrop, { type Crop } from "react-image-crop";
@@ -135,98 +144,124 @@ export default function ImageDialog({ image, query, index }: ImageDialogProps) {
   };
 
   return (
-    <DialogContent className="max-w-3xl">
-      <DialogTitle className="flex items-center gap-2">
-        <div>{"Photo by " + image.photographer}</div>
-        <a
-          href={image.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-muted-foreground hover:underline"
-        >
-          See on Pexels
-        </a>
-      </DialogTitle>
-      <DialogDescription>{image.alt}</DialogDescription>
-
-      <div className="relative">
-        <div className={`${isCropping ? "block" : "hidden"}`}>
-          <ReactCrop
-            crop={crop}
-            onChange={(c) => setCrop(c)}
-            aspect={ASPECT_RATIO}
-            className="object-contain"
-          >
+    <DialogContent className="max-w-5xl">
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex-1 relative">
+          <div className={`${isCropping ? "block" : "hidden"}`}>
+            <ReactCrop
+              crop={crop}
+              onChange={(c) => setCrop(c)}
+              aspect={ASPECT_RATIO}
+              className="object-contain"
+            >
+              <img
+                ref={imageRef}
+                src={image.src.original || "/placeholder.svg"}
+                alt={image.alt || "Image"}
+                className="max-w-full h-auto"
+                crossOrigin="anonymous"
+              />
+            </ReactCrop>
+          </div>
+          <div className={`${isCropping ? "hidden" : "block"}`}>
             <img
-              ref={imageRef}
-              src={image.src.original || "/placeholder.svg"}
+              src={image.src.large || "/placeholder.svg"}
               alt={image.alt || "Image"}
-              className="max-w-full h-auto"
-              crossOrigin="anonymous"
+              className="w-full h-auto object-contain"
             />
-          </ReactCrop>
+          </div>
         </div>
-        <div className={`${isCropping ? "hidden" : "block"}`}>
-          <img
-            src={image.src.large || "/placeholder.svg"}
-            alt={image.alt || "Image"}
-            className="w-full h-auto object-contain"
-          />
+
+        <div className="flex flex-col gap-4 md:w-72">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <div className="font-medium">{image.photographer}</div>
+              <a
+                href={image.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </div>
+
+            {image.alt && (
+              <div className="text-sm text-muted-foreground">{image.alt}</div>
+            )}
+            <div className="text-sm text-muted-foreground">
+              Free to use under the Pexels license
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            {isCropping ? (
+              <>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsCropping(false)}
+                  className="w-full justify-start"
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                </Button>
+                <Button
+                  onClick={getCroppedImage}
+                  className="w-full justify-start"
+                >
+                  <Download className="mr-2 h-4 w-4" /> Download Cropped
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={(e) =>
+                    handleDownload(
+                      e,
+                      image.src.original,
+                      image.alt || `image-${index}`
+                    )
+                  }
+                  variant="outline"
+                  className="w-full justify-start"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Download Original
+                </Button>
+                <Button
+                  onClick={(e) =>
+                    handleCopyClick(
+                      e,
+                      image.src.original,
+                      `dialog-${query}-${index}`
+                    )
+                  }
+                  variant="outline"
+                  className="w-full justify-start"
+                >
+                  {copiedStates[`dialog-${query}-${index}`] ? (
+                    <div className="flex items-center">
+                      <Check className="mr-2 h-4 w-4" />
+                      URL Copied
+                    </div>
+                  ) : (
+                    <>
+                      <Link className="mr-2 h-4 w-4" />
+                      Copy URL
+                    </>
+                  )}
+                </Button>
+                <Button
+                  onClick={() => setIsCropping(true)}
+                  className="w-full justify-start"
+                >
+                  <CropIcon className="mr-2 h-4 w-4" />
+                  Crop OG Image
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
-
-      <DialogFooter className="mt-4">
-        <div className="flex gap-2">
-          {isCropping ? (
-            <>
-              <Button variant="outline" onClick={() => setIsCropping(false)}>
-                Cancel
-              </Button>
-              <Button onClick={getCroppedImage}>Download Cropped Image</Button>
-            </>
-          ) : (
-            <>
-              <Button
-                onClick={(e) =>
-                  handleDownload(
-                    e,
-                    image.src.original,
-                    image.alt || `image-${index}`
-                  )
-                }
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Download
-              </Button>
-              <Button
-                onClick={(e) =>
-                  handleCopyClick(
-                    e,
-                    image.src.original,
-                    `dialog-${query}-${index}`
-                  )
-                }
-                className="transition-all"
-              >
-                {copiedStates[`dialog-${query}-${index}`] ? (
-                  <div className="flex items-center space-x-2">
-                    <span>URL Copied</span>
-                    <Check className="h-4 w-4" />
-                  </div>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy URL
-                  </>
-                )}
-              </Button>
-              <Button onClick={() => setIsCropping(true)}>
-                Create OG Image
-              </Button>
-            </>
-          )}
-        </div>
-      </DialogFooter>
     </DialogContent>
   );
 }
