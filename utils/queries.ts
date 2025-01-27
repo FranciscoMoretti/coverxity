@@ -37,10 +37,8 @@ export async function generateImageQueries(title: string): Promise<string[]> {
         content: `You are a professional stock photographer specializing in Pexels image search. Generate 5 search terms that will find high-quality stock photos on Pexels.com for this article title.
 
         Guidelines:
-        - Focus on concrete, photographable subjects (e.g., "laptop" not "automation")
         - Include both literal and metaphorical terms
-        - Use common stock photo scenarios (e.g., "office meeting" not "agile standup")
-        - Prioritize specific concrete keywords from the article title over abstract concepts
+        - Use words from the title to form most search terms
         - Prioritize terms that match Pexels' strengths.
         - Avoid:
           * Abstract concepts

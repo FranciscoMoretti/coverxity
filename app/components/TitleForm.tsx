@@ -25,8 +25,7 @@ export default function TitleForm({ onSubmit }: TitleFormProps) {
           Find the Perfect Cover Image
         </h2>
         <p className="text-muted-foreground">
-          Enter your article title and let AI suggest the most relevant visuals
-          for your content
+          Enter a title and AI will find matching visuals
         </p>
       </div>
       <form onSubmit={handleSubmit} className="relative">
