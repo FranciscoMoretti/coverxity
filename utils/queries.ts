@@ -10,7 +10,7 @@ type QueryResponse = {
 
 export async function generateImageQueries(title: string): Promise<string[]> {
   const response = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-4o-mini",
     response_format: {
       type: "json_schema",
       json_schema: {
@@ -34,17 +34,19 @@ export async function generateImageQueries(title: string): Promise<string[]> {
     messages: [
       {
         role: "system",
-        content: `You are an expert at generating search terms for finding article cover images. Return a response with 5 search terms that would make good cover images for the article title. 
+        content: `You are a professional stock photographer specializing in Pexels image search. Generate 5 search terms that will find high-quality stock photos on Pexels.com for this article title.
 
-        The query is to search images on Pexels.com. Pexels documentation explains: query could be something broad like Nature, Tigers, People. Or it could be something specific like Group of people working.
-        
         Guidelines:
-        1. Understand the article title and brainstorm the top related concpets.
-        2. Return 5 search terms that would lead to images that are relevant to the article.
-        3. Some search terms should be specific.
-        4. The search terms should be broad.
-        5. The search terms should be the top 5 most relevants.
-        
+        - Focus on concrete, photographable subjects (e.g., "laptop" not "automation")
+        - Include both literal and metaphorical terms
+        - Use common stock photo scenarios (e.g., "office meeting" not "agile standup")
+        - Prioritize specific concrete keywords from the article title over abstract concepts
+        - Prioritize terms that match Pexels' strengths.
+        - Avoid:
+          * Abstract concepts
+          * Technical jargon
+          * Overly niche terms that will throw no results
+          * Very generic terms that will apply to anything
         `,
       },
       {

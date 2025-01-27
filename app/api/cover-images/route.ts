@@ -21,8 +21,11 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<ReturnSchema | { error: string }>> {
   try {
-    // Only check rate limit if KV is configured
-    if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+    if (
+      process.env.NODE_ENV === "production" &&
+      process.env.KV_REST_API_URL &&
+      process.env.KV_REST_API_TOKEN
+    ) {
       const forwardedFor = headers().get("x-forwarded-for");
       const ip = forwardedFor?.split(",")[0] || "127.0.0.1";
 
@@ -50,6 +53,9 @@ export async function POST(
     // Generate search queries
     const queries = await generateImageQueries(title);
     console.log("Queries: ", queries);
+
+    // To eval queries return here
+    // return NextResponse.json({ queries, results: {} });
 
     // Get images for each query
     const imageResults = await Promise.all(

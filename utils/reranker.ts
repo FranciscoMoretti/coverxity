@@ -15,7 +15,7 @@ export async function rerank(images: Photo[], title: string): Promise<Photo[]> {
 
   // Get scores from OpenAI
   const completion = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-4o-mini",
     messages: [
       {
         role: "system",
