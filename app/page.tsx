@@ -11,13 +11,17 @@ import Image from "next/image";
 export default function Home() {
   const [queries, setQueries] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<Record<string, any[]>>({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTitleSubmit = async (submittedTitle: string) => {
-    const coverImages = await getCoverImages(submittedTitle);
-    setQueries(coverImages.queries);
-
-    const results = coverImages.results;
-    setSearchResults(results);
+    setIsLoading(true);
+    try {
+      const coverImages = await getCoverImages(submittedTitle);
+      setQueries(coverImages.queries);
+      setSearchResults(coverImages.results);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,8 +45,12 @@ export default function Home() {
       <main className=" bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 flex flex-col grow justify-center">
         <div className="container mx-auto pb-16 transition-all">
           <TitleForm onSubmit={handleTitleSubmit} />
-          {queries.length > 0 && (
-            <QueryResults queries={queries} searchResults={searchResults} />
+          {(queries.length > 0 || isLoading) && (
+            <QueryResults
+              queries={queries}
+              searchResults={searchResults}
+              isLoading={isLoading}
+            />
           )}
         </div>
       </main>
