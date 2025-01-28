@@ -4,12 +4,10 @@ import { ToastProvider } from "./components/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Coverxity",
-  description:
-    "AI-powered tool to find the perfect cover images for your content",
+  description: "Find the perfect cover image with AI",
   openGraph: {
     title: "Coverxity",
-    description:
-      "AI-powered tool to find the perfect cover images for your content",
+    description: "Find the perfect cover image with AI",
     images: [
       {
         url: "/icon.png",
