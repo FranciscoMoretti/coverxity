@@ -6,7 +6,7 @@ const redis = new Redis({
   token: process.env.KV_REST_API_TOKEN || "",
 });
 
-export const MAX_REQUESTS_PER_DAY = 5;
+export const MAX_REQUESTS_PER_DAY = 3;
 
 export const rateLimiter = new Ratelimit({
   redis: redis,
