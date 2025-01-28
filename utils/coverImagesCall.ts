@@ -10,6 +10,9 @@ export async function getCoverImages(title: string): Promise<ReturnSchema> {
   });
 
   if (!response.ok) {
+    if (response.status === 429) {
+      throw new Error("Rate limit exceeded. Please try again tomorrow.");
+    }
     throw new Error("Failed to fetch cover images");
   }
 

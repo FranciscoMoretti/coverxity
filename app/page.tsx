@@ -7,8 +7,10 @@ import { getCoverImages } from "@/utils/coverImagesCall";
 import { Github } from "lucide-react";
 import Icon from "@/public/icon.png";
 import Image from "next/image";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Home() {
+  const { toast } = useToast();
   const [queries, setQueries] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<Record<string, any[]>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +34,13 @@ export default function Home() {
       const coverImages = await getCoverImages(submittedTitle);
       setQueries(coverImages.queries);
       setSearchResults(coverImages.results);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description:
+          error instanceof Error ? error.message : "Something went wrong",
+      });
     } finally {
       setIsLoading(false);
     }
