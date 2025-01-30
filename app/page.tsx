@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import TitleForm from "./components/TitleForm";
 import QueryResults from "./components/QueryResults";
 import { getCoverImages } from "@/utils/coverImagesCall";
@@ -11,7 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function Home() {
+function HomeContent() {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -119,5 +119,13 @@ export default function Home() {
         </a>
       </footer>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
   );
 }
