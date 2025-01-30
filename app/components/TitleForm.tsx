@@ -2,13 +2,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sparkles } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 interface TitleFormProps {
   onSubmit: (title: string) => void;
 }
 
 export default function TitleForm({ onSubmit }: TitleFormProps) {
-  const [title, setTitle] = useState("");
+  const searchParams = useSearchParams();
+  const [title, setTitle] = useState(searchParams.get("q") || "");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {

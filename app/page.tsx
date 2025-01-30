@@ -8,9 +8,12 @@ import { Github } from "lucide-react";
 import Icon from "@/public/icon.png";
 import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Home() {
   const { toast } = useToast();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [queries, setQueries] = useState<string[]>([]);
   const [searchResults, setSearchResults] = useState<Record<string, any[]>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +22,14 @@ export default function Home() {
     limit: number;
   } | null>(null);
 
+  // Load initial state from URL
+  useEffect(() => {
+    const query = searchParams.get("q");
+    if (query && !queries.length) {
+      handleTitleSubmit(query);
+    }
+  }, [searchParams]);
+
   useEffect(() => {
     const fetchRateLimit = async () => {
       const res = await fetch("/api/rate-limit");
@@ -26,10 +37,13 @@ export default function Home() {
       setRateLimit(data);
     };
     fetchRateLimit();
-  }, [queries]); // Refresh after each search
+  }, [queries]);
 
   const handleTitleSubmit = async (submittedTitle: string) => {
     setIsLoading(true);
+    // Update URL without reload
+    router.push(`?q=${encodeURIComponent(submittedTitle)}`, { scroll: false });
+
     try {
       const coverImages = await getCoverImages(submittedTitle);
       setQueries(coverImages.queries);

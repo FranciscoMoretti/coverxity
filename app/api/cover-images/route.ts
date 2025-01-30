@@ -7,6 +7,15 @@ import { z } from "zod";
 import { headers } from "next/headers";
 import { rateLimit } from "@/utils/rate-limiter";
 import { shouldUseRateLimit } from "@/utils/shouldUseRateLimit";
+import { Redis } from "@upstash/redis";
+
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || "",
+  token: process.env.KV_REST_API_TOKEN || "",
+});
+
+// Cache TTL in seconds (24 hours)
+const CACHE_TTL = 24 * 60 * 60;
 
 export const returnSchema = z.object({
   queries: z.array(z.string()).min(1),
@@ -22,6 +31,18 @@ export async function POST(
   request: Request
 ): Promise<NextResponse<ReturnSchema | { error: string }>> {
   try {
+    const { title } = await request.json();
+
+    // Check cache first
+    const cacheKey = `coverxity:results:${encodeURIComponent(
+      title.toLowerCase()
+    )}`;
+    const cachedResults = await redis.get<ReturnSchema>(cacheKey);
+
+    if (cachedResults) {
+      return NextResponse.json(cachedResults);
+    }
+
     if (shouldUseRateLimit()) {
       const forwardedFor = headers().get("x-forwarded-for");
       const ip = forwardedFor?.split(",")[0] || "127.0.0.1";
@@ -44,8 +65,6 @@ export async function POST(
         );
       }
     }
-
-    const { title } = await request.json();
 
     // Generate search queries
     const queries = await generateImageQueries(title);
@@ -97,10 +116,15 @@ export async function POST(
       ])
     );
 
-    return NextResponse.json({
+    const response = {
       queries: sortedQueries,
       results,
-    });
+    };
+
+    // Cache the results
+    await redis.set(cacheKey, response, { ex: CACHE_TTL });
+
+    return NextResponse.json(response);
   } catch (error) {
     console.error("Error generating cover images:", error);
     return NextResponse.json(

@@ -19,6 +19,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { handleDownload } from "@/utils/handleDownload";
 
 interface QueryCardProps {
   query: string;
@@ -45,28 +46,6 @@ export default function QueryCard({ query, images }: QueryCardProps) {
       .catch((err) => {
         console.error("Failed to copy: ", err);
       });
-  };
-
-  const handleDownload = async (
-    e: React.MouseEvent,
-    imageUrl: string,
-    filename: string
-  ) => {
-    e.stopPropagation();
-    try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${filename}.jpg`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch (err) {
-      console.error("Failed to download: ", err);
-    }
   };
 
   return (
