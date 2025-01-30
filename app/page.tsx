@@ -9,6 +9,7 @@ import Icon from "@/public/icon.png";
 import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
   const { toast } = useToast();
@@ -25,7 +26,7 @@ export default function Home() {
   // Load initial state from URL
   useEffect(() => {
     const query = searchParams.get("q");
-    if (query && !queries.length) {
+    if (query && !queries.length && window.location.search) {
       handleTitleSubmit(query);
     }
   }, [searchParams]);
@@ -65,8 +66,17 @@ export default function Home() {
       <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex h-14 items-center justify-between w-full px-4 md:px-8">
           <div className="flex items-center gap-2">
-            <Image src={Icon} alt="Coverxity icon" width={24} height={24} />
-            <span className="text-xl font-bold">Coverxity</span>
+            <Link
+              href="/"
+              className="flex items-center gap-2"
+              onClick={() => {
+                setQueries([]);
+                setSearchResults({});
+              }}
+            >
+              <Image src={Icon} alt="Coverxity icon" width={24} height={24} />
+              <span className="text-xl font-bold">Coverxity</span>
+            </Link>
           </div>
           <div className="flex items-center gap-4">
             {rateLimit && (
