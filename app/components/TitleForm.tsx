@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Sparkles } from "lucide-react";
+import { Search, Sparkles } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 
 interface TitleFormProps {
   onSubmit: (title: string) => void;
@@ -30,24 +31,23 @@ export default function TitleForm({ onSubmit }: TitleFormProps) {
           Enter a title and AI will find matching visuals
         </p>
       </div>
-      <form onSubmit={handleSubmit} className="relative">
-        <Input
-          type="text"
+      <form onSubmit={handleSubmit} className="relative sm:relative static">
+        <Textarea
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="The Future of Artificial Intelligence"
-          className="w-full pl-4 pr-32 h-12 text-base"
+          className="w-full pl-4 pr-4 sm:pr-32 h-12 text-base"
         />
         <Button
           type="submit"
-          className="absolute right-1 top-1 h-10"
+          className="sm:absolute static w-full sm:w-auto sm:right-1.5 sm:bottom-1.5 h-10 mt-2 sm:mt-0"
           disabled={!title.trim() || isLoading}
         >
           {isLoading ? (
             "Searching..."
           ) : (
             <>
-              <Sparkles className="mr-2 h-4 w-4" />
+              <Search className="mr-2 h-4 w-4" />
               Find Images
             </>
           )}
