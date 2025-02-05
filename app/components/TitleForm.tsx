@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Search, Sparkles } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
+import { ChatInputDemo } from "./chatInput";
 
 interface TitleFormProps {
   onSubmit: (title: string) => void;
@@ -53,6 +54,8 @@ export default function TitleForm({ onSubmit }: TitleFormProps) {
           )}
         </Button>
       </form>
+      <br />
+      <ChatInputDemo />
     </div>
   );
 }
