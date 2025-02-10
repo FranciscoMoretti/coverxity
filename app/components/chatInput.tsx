@@ -28,7 +28,7 @@ export function ChatInputDemo({ className, onSend, ...props }: ChatInputProps) {
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   setMessage(e.target.value)
                 }
-                placeholder="The Future of Artificial Intelligence"
+                placeholder="Your article title"
                 className="min-h-[40px] w-full resize-none border-0 bg-transparent p-2 focus-visible:ring-0 shadow-none outline-none overflow-auto"
                 style={{
                   WebkitBoxShadow: 'none',
