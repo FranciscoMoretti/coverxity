@@ -33,33 +33,7 @@ export function ChatInputDemo({ className, onSend, ...props }: ChatInputProps) {
               />
             </div>
 
-            <div className="mb-2 mt-1 flex items-center justify-between">
-              <div className="flex gap-1.5">
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="h-9 w-9 rounded-full opacity-30"
-                  disabled
-                >
-                  <PlusIcon className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="h-9 w-9 rounded-full opacity-30"
-                  disabled
-                >
-                  <SearchIcon className="h-4 w-4" />
-                </Button>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="h-9 w-9 rounded-full"
-                >
-                  <LightbulbIcon className="h-4 w-4" />
-                </Button>
-              </div>
-
+            <div className="mb-2 mt-1 flex items-center justify-end">
               <Button
                 size="icon"
                 className="h-9 w-9 rounded-full bg-black dark:bg-white dark:text-black disabled:bg-[#D7D7D7]"
