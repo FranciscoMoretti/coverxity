@@ -10,10 +10,12 @@ interface ChatInputProps {
   onSubmit?: () => void;
   isLoading?: boolean;
   className?: string;
+  inputClassName?: string;
 }
 
 export function ChatInput({ 
   className, 
+  inputClassName,
   value, 
   onChange, 
   onSubmit,
@@ -37,7 +39,7 @@ export function ChatInput({
     >
       <div className="group relative flex w-full items-center">
         <div className="w-full">
-          <div className="flex w-full cursor-text flex-col rounded-3xl border px-3 py-1 shadow-[0_9px_9px_0px_rgba(0,0,0,0.01),_0_2px_5px_0px_rgba(0,0,0,0.06)] transition-colors dark:border-none dark:shadow-none dark:bg-[#303030]">
+          <div className="flex w-full cursor-text flex-col rounded-3xl border px-2 py-0.5 sm:px-3 sm:py-1 shadow-[0_9px_9px_0px_rgba(0,0,0,0.01),_0_2px_5px_0px_rgba(0,0,0,0.06)] transition-colors dark:border-none dark:shadow-none dark:bg-[#303030]">
             <div className="flex items-center pl-1">
               <Input
                 value={value}
@@ -46,7 +48,10 @@ export function ChatInput({
                 }
                 onKeyDown={handleKeyDown}
                 placeholder="Your Article Title..."
-                className="w-full border-0 bg-transparent p-2 focus-visible:ring-0 shadow-none outline-none"
+                className={cn(
+                  "w-full border-0 bg-transparent p-1 sm:p-2 focus-visible:ring-0 shadow-none outline-none",
+                  inputClassName
+                )}
                 style={{
                   WebkitBoxShadow: 'none',
                   MozBoxShadow: 'none',
@@ -56,14 +61,14 @@ export function ChatInput({
               <div className="flex items-center">
                 <Button
                   size="icon"
-                  className="rounded-full bg-black dark:bg-white dark:text-black disabled:bg-[#D7D7D7]"
+                  className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-black dark:bg-white dark:text-black disabled:bg-[#D7D7D7]"
                   disabled={!value || isLoading}
                   onClick={onSubmit}
                 >
                   {isLoading ? (
                     "..."
                   ) : (
-                    <SendIcon className="h-4 w-4" />
+                    <SendIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                   )}
                 </Button>
               </div>

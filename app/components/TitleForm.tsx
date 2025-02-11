@@ -33,6 +33,8 @@ export default function TitleForm({ onSubmit }: TitleFormProps) {
         onChange={setTitle}
         onSubmit={handleSubmit}
         isLoading={isLoading}
+        inputClassName="text-xs sm:text-sm md:text-base h-8 md:h-10"
+
       />
     </div>
   );
