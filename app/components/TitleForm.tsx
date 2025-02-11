@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ChatInput } from "./chatInput";
+import { ChatTextArea } from "./ChatTextArea";
+import { ChatInput } from "./ChatInput";
 
 interface TitleFormProps {
   onSubmit: (title: string) => void;

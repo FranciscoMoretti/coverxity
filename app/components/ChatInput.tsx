@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { SendIcon, Search } from "lucide-react";
+import { SendIcon } from "lucide-react";
 
-interface ChatInputProps extends React.ComponentPropsWithoutRef<"div"> {
+interface ChatInputProps {
   value: string;
   onChange: (value: string) => void;
   onSubmit?: () => void;
@@ -20,6 +20,13 @@ export function ChatInput({
   isLoading,
   ...props 
 }: ChatInputProps) {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey && onSubmit && value && !isLoading) {
+      e.preventDefault();
+      onSubmit();
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -31,39 +38,39 @@ export function ChatInput({
       <div className="group relative flex w-full items-center">
         <div className="w-full">
           <div className="flex w-full cursor-text flex-col rounded-3xl border px-3 py-1 shadow-[0_9px_9px_0px_rgba(0,0,0,0.01),_0_2px_5px_0px_rgba(0,0,0,0.06)] transition-colors dark:border-none dark:shadow-none dark:bg-[#303030]">
-            <div className="flex min-h-[44px] items-start pl-1">
-              <Textarea
+            <div className="flex items-center pl-1">
+              <Input
                 value={value}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   onChange(e.target.value)
                 }
-                placeholder="Your article title"
-                className="min-h-[40px] w-full resize-none border-0 bg-transparent p-2 focus-visible:ring-0 shadow-none outline-none overflow-auto"
+                onKeyDown={handleKeyDown}
+                placeholder="Your Article Title..."
+                className="w-full border-0 bg-transparent p-2 focus-visible:ring-0 shadow-none outline-none"
                 style={{
                   WebkitBoxShadow: 'none',
                   MozBoxShadow: 'none',
                   boxShadow: 'none'
                 }}
               />
-            </div>
-
-            <div className="mb-2 mt-1 flex items-center justify-end">
-              <Button
-                size="icon"
-                className="h-9 w-9 rounded-full bg-black dark:bg-white dark:text-black disabled:bg-[#D7D7D7]"
-                disabled={!value || isLoading}
-                onClick={onSubmit}
-              >
-                {isLoading ? (
-                  "..."
-                ) : (
-                  <Search className="h-4 w-4" />
-                )}
-              </Button>
+              <div className="flex items-center">
+                <Button
+                  size="icon"
+                  className="rounded-full bg-black dark:bg-white dark:text-black disabled:bg-[#D7D7D7]"
+                  disabled={!value || isLoading}
+                  onClick={onSubmit}
+                >
+                  {isLoading ? (
+                    "..."
+                  ) : (
+                    <SendIcon className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+} 
