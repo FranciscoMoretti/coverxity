@@ -19,12 +19,12 @@ export default function TitleForm({ onSubmit }: TitleFormProps) {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12 md:py-24">
-      <div className="text-center space-y-4 mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 text-transparent bg-clip-text">
+      <div className="text-center space-y-2 sm:space-y-4 mb-8">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 text-transparent bg-clip-text">
           Find the Perfect Cover Image
         </h2>
-        <p className="text-muted-foreground text-xs">
-        AI finds cover images across multiple categories based on your article title
+        <p className="text-muted-foreground text-xs text-balance">
+          AI finds relevant cover images for your article
         </p>
       </div>
       <ChatInput 
