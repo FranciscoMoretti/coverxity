@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ChatTextArea } from "./ChatTextArea";
 import { ChatInput } from "./ChatInput";
 
 interface TitleFormProps {
@@ -24,8 +23,8 @@ export default function TitleForm({ onSubmit }: TitleFormProps) {
         <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 text-transparent bg-clip-text">
           Find the Perfect Cover Image
         </h2>
-        <p className="text-muted-foreground">
-          Enter a title and AI will find matching visuals
+        <p className="text-muted-foreground text-xs">
+        AI finds cover images across multiple categories based on your article title
         </p>
       </div>
       <ChatInput 
