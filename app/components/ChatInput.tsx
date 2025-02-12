@@ -39,7 +39,7 @@ export function ChatInput({
     >
       <div className="group relative flex w-full items-center">
         <div className="w-full">
-          <div className="flex w-full cursor-text flex-col rounded-3xl border px-2 py-0.5 sm:px-3 sm:py-1 shadow-[0_9px_9px_0px_rgba(0,0,0,0.01),_0_2px_5px_0px_rgba(0,0,0,0.06)] transition-colors dark:border-none dark:shadow-none dark:bg-[#303030]">
+          <div className="flex w-full cursor-text flex-col rounded-3xl border p-1 sm:p-1.5 shadow-[0_9px_9px_0px_rgba(0,0,0,0.01),_0_2px_5px_0px_rgba(0,0,0,0.06)] transition-colors dark:border-none dark:shadow-none dark:bg-[#303030]">
             <div className="flex items-center pl-1">
               <Input
                 value={value}
@@ -49,7 +49,7 @@ export function ChatInput({
                 onKeyDown={handleKeyDown}
                 placeholder="Your Article Title..."
                 className={cn(
-                  "w-full border-0 bg-transparent p-1 sm:p-2 focus-visible:ring-0 shadow-none outline-none",
+                    "w-full border-0 bg-transparent p-1 sm:p-2 focus-visible:ring-0 shadow-none outline-none",
                   inputClassName
                 )}
                 style={{
